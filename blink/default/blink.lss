@@ -1,0 +1,121 @@
+
+blink.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000060  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000b4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 0000001b  00000000  00000000  000000d4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000011e  00000000  00000000  000000ef  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000c1  00000000  00000000  0000020d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   0000012d  00000000  00000000  000002ce  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000020  00000000  00000000  000003fc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000cb  00000000  00000000  0000041c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000048  00000000  00000000  000004e7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	19 c0       	rjmp	.+50     	; 0x36 <__bad_interrupt>
+   4:	18 c0       	rjmp	.+48     	; 0x36 <__bad_interrupt>
+   6:	17 c0       	rjmp	.+46     	; 0x36 <__bad_interrupt>
+   8:	16 c0       	rjmp	.+44     	; 0x36 <__bad_interrupt>
+   a:	15 c0       	rjmp	.+42     	; 0x36 <__bad_interrupt>
+   c:	14 c0       	rjmp	.+40     	; 0x36 <__bad_interrupt>
+   e:	13 c0       	rjmp	.+38     	; 0x36 <__bad_interrupt>
+  10:	12 c0       	rjmp	.+36     	; 0x36 <__bad_interrupt>
+  12:	11 c0       	rjmp	.+34     	; 0x36 <__bad_interrupt>
+  14:	10 c0       	rjmp	.+32     	; 0x36 <__bad_interrupt>
+  16:	0f c0       	rjmp	.+30     	; 0x36 <__bad_interrupt>
+  18:	0e c0       	rjmp	.+28     	; 0x36 <__bad_interrupt>
+  1a:	0d c0       	rjmp	.+26     	; 0x36 <__bad_interrupt>
+  1c:	0c c0       	rjmp	.+24     	; 0x36 <__bad_interrupt>
+  1e:	0b c0       	rjmp	.+22     	; 0x36 <__bad_interrupt>
+  20:	0a c0       	rjmp	.+20     	; 0x36 <__bad_interrupt>
+  22:	09 c0       	rjmp	.+18     	; 0x36 <__bad_interrupt>
+  24:	08 c0       	rjmp	.+16     	; 0x36 <__bad_interrupt>
+
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf e5       	ldi	r28, 0x5F	; 95
+  2c:	d4 e0       	ldi	r29, 0x04	; 4
+  2e:	de bf       	out	0x3e, r29	; 62
+  30:	cd bf       	out	0x3d, r28	; 61
+  32:	02 d0       	rcall	.+4      	; 0x38 <main>
+  34:	13 c0       	rjmp	.+38     	; 0x5c <_exit>
+
+00000036 <__bad_interrupt>:
+  36:	e4 cf       	rjmp	.-56     	; 0x0 <__vectors>
+
+00000038 <main>:
+#include<util/delay.h>
+
+int main(void)
+{
+unsigned char i;
+DDRB=0b00001111;
+  38:	8f e0       	ldi	r24, 0x0F	; 15
+  3a:	87 bb       	out	0x17, r24	; 23
+  3c:	21 e0       	ldi	r18, 0x01	; 1
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  3e:	40 e9       	ldi	r20, 0x90	; 144
+  40:	51 e0       	ldi	r21, 0x01	; 1
+while(1)
+{
+
+	for(i= 0x01;i!=0x10;i++)
+	{
+		PORTB=i;
+  42:	28 bb       	out	0x18, r18	; 24
+  44:	88 e8       	ldi	r24, 0x88	; 136
+  46:	93 e1       	ldi	r25, 0x13	; 19
+  48:	fa 01       	movw	r30, r20
+  4a:	31 97       	sbiw	r30, 0x01	; 1
+  4c:	f1 f7       	brne	.-4      	; 0x4a <__SREG__+0xb>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+  4e:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+  50:	d9 f7       	brne	.-10     	; 0x48 <__SREG__+0x9>
+unsigned char i;
+DDRB=0b00001111;
+while(1)
+{
+
+	for(i= 0x01;i!=0x10;i++)
+  52:	2f 5f       	subi	r18, 0xFF	; 255
+  54:	20 31       	cpi	r18, 0x10	; 16
+  56:	a9 f7       	brne	.-22     	; 0x42 <__SREG__+0x3>
+  58:	21 e0       	ldi	r18, 0x01	; 1
+  5a:	f3 cf       	rjmp	.-26     	; 0x42 <__SREG__+0x3>
+
+0000005c <_exit>:
+  5c:	f8 94       	cli
+
+0000005e <__stop_program>:
+  5e:	ff cf       	rjmp	.-2      	; 0x5e <__stop_program>
